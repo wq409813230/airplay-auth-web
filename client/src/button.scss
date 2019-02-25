@@ -1,0 +1,49 @@
+@charset "UTF-8";
+@mixin button-plain($color) {
+  color: $color;
+  background: #fff;
+  border-color: $color;//mix($--color-white, $color, 60%);
+
+  &:hover,
+  &:focus {
+    background: mix($--color-white, $color, 80%);
+    border-color: $color;
+    color: $color;
+  }
+
+  &:active {
+    background: mix($--color-white, $color, 90%);
+    border-color: mix($--color-black, $color, $--button-active-shade-percent);
+    color:mix($--color-black, $color, $--button-active-shade-percent);
+    outline: none;
+  }
+
+  &.is-disabled {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      color: mix($--color-white, $color, 40%);
+      background-color: #fff;// mix($--color-white, $color, 90%);
+      border-color: mix($--color-white, $color, 80%);
+    }
+  }
+}
+
+@include b(button) {
+  @include m(primary) {
+    @include button-variant($--button-primary-color, $--button-primary-fill, $--button-primary-border);
+  }
+  @include m(success) {
+    @include button-variant($--button-success-color, $--button-success-fill, $--button-success-border);
+  }
+  @include m(warning) {
+    @include button-variant($--button-warning-color, $--button-warning-fill, $--button-warning-border);
+  }
+  @include m(danger) {
+    @include button-variant($--button-danger-color, $--button-danger-fill, $--button-danger-border);
+  }
+  @include m(info) {
+    @include button-variant($--button-info-color, $--button-info-fill, $--button-info-border);
+  }
+}

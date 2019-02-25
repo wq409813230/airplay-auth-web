@@ -1,0 +1,55 @@
+$--color-primary: #3c68f2;
+
+$--border-color-base: #c0c4cc;
+
+$--table-text-color: #323232;
+$--table-header-background: #dae3f8;
+$--table-header-color: rgba(50, 50, 50, 0.8);
+
+$--input-border: 1px solid #bfbfbf;
+$--input-height: 34px;
+$--input-medium-height: 34px;
+$--input-medium-font-size: 14px;
+
+$--input-small-height: 30px;
+$--input-small-font-size: 14px;
+
+$--input-mini-height: 26px;
+$--input-mini-font-size: 14px;
+$--input-disabled-fill: #eee;
+
+
+$--button-default-fill: #fff;
+$--button-medium-border-radius: 3px;
+$--button-medium-padding-vertical: 9px;
+$--button-medium-padding-horizontal: 15px;
+
+$--button-small-border-radius: 3px;
+$--button-small-font-size: 14px;
+$--button-small-padding-vertical: 7px;
+
+$--button-mini-border-radius: 3px;
+$--button-mini-font-size: 12px;
+$--button-mini-padding-vertical: 6px;
+
+$--button-primary-fill: #3c68f2;
+$--button-primary-border: #3c68f2;
+
+$--button-warning-fill: #f79c27;
+$--button-warning-border: #f79c27;
+
+
+$--select-option-hover-background: #ebf0fe;
+$--select-option-selected: #3c68f2;
+
+$--tag-fill: #fff;
+$--tag-color: #f79c27;
+$--tag-border: #f79c27;
+
+$--background-color-base: #dae3f8;
+$--color-text-secondary: #333333;
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+@import '~element-ui/packages/theme-chalk/src/index';
+
+@import './button';

@@ -1,0 +1,161 @@
+#app {
+
+  // 主体区域
+  .main-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50px;
+    bottom: 40px;
+    transition: margin-left .28s;
+    margin-left: 180px;
+  }
+
+  .recent-title{
+    display: block;
+    margin-top: 10px;
+    padding-left: 30px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+  }
+  .recent-used{
+    position: relative;
+    display: block;
+    padding-left: 30px;
+    height: 50px;
+    line-height: 50px;
+    color: rgba(38, 121, 203, 0.9);
+    font-size: 14px;
+    border-bottom: solid 1px rgba(220, 220, 220, 0.32);
+    &:before{
+      content: url('../imgs/clock.png');
+      position: absolute;
+      top: 2px;
+      left: 10px;
+    };
+  }
+  .recent-used-link{
+    .el-menu-item{
+      padding-left: 30px!important;
+      &:hover {
+        background-color: $menuHover !important;
+      }
+    }
+    &.router-link-active .el-menu-item{
+      color: #2679cb !important;
+      background-color: $menuHover !important;
+    }
+  }
+
+   // 侧边栏
+  .sidebar-container {
+    .horizontal-collapse-transition {
+      transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
+    }
+    transition: width .28s;
+    width: 180px !important;
+    position: fixed;
+    font-size: 0px;
+    top: 50px;
+    height: calc(100% - 90px);
+    left: 0;
+    z-index: 1001;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 2px 2px 6px 0px rgba(219, 229, 246, 0.91);
+    a {
+      display: inline-block;
+      width: 100%;
+    }
+    .svg-icon {
+      margin-right: 16px;
+    }
+    .el-menu {
+      border: none;
+      width: 100% !important;
+    }
+  }
+
+  .hideSidebar {
+    .sidebar-container {
+      width: 36px !important;
+    }
+    .main-container {
+      margin-left: 36px;
+    }
+    .submenu-title-noDropdown {
+      padding-left: 10px !important;
+      position: relative;
+      .el-tooltip {
+        padding: 0 10px !important;
+      }
+    }
+    .el-submenu {
+      &>.el-submenu__title {
+        padding-left: 10px !important;
+        &>span {
+          height: 0;
+          width: 0;
+          overflow: hidden;
+          visibility: hidden;
+          display: inline-block;
+        }
+        .el-submenu__icon-arrow {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .sidebar-container .nest-menu .el-submenu>.el-submenu__title,
+  .sidebar-container .el-submenu>.el-submenu__title,
+  .sidebar-container .el-submenu .el-menu-item {
+    min-width: 180px !important;
+    background-color: $subMenuBg !important;
+    &:hover {
+      background-color: $menuHover !important;
+    }
+  }
+  .sidebar-container .el-submenu.is-opened .el-submenu__title{
+    background-color: $menuHover !important;
+  }
+  .el-menu--collapse .el-menu .el-submenu {
+    min-width: 180px !important;
+  }
+
+  /* .menu-wrapper{
+    .el-menu-item{
+      height: 45px;
+      line-height: 45px;     
+    }
+    .el-submenu__title{
+      height: 50px;
+      line-height: 50px;
+    }
+  } */
+  //适配移动端
+  .mobile {
+    .main-container {
+      margin-left: 0px;
+    }
+    .sidebar-container {
+      top: 50px;
+      transition: transform .28s;
+      width: 180px !important;
+    }
+    &.hideSidebar {
+      .sidebar-container {
+        transition-duration: 0.3s;
+        transform: translate3d(-180px, 0, 0);
+      }
+    }
+  }
+
+  .withoutAnimation {
+    .main-container,
+    .sidebar-container {
+      transition: none;
+    }
+  }
+}
