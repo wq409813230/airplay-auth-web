@@ -2,5 +2,6 @@ module.exports = {
     security: "freeapis-web-security",
     systemctl: "freeapis-web-systemctl",
     asi: "freeapis-web-asi",
-    agency: "freeapis-web-agency"
+    agency: "freeapis-web-agency",
+    airpaluauth: "freeapis-web-airplayauth"
 };

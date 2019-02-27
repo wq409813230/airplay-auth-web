@@ -108,17 +108,6 @@ export default {
 </script>
 
 <style rel="stylesheet/css" scoped>
-	.notice{
-		border-left: 1px solid #eee;
-		padding-left: 40px;
-		margin-left: 22px;
-		color: #2f2d2d;
-		opacity: 0.8;
-		height: 20px;
-		display: inline-block;
-		background: url("../imgs/notice.png") no-repeat 18px 3px;
-		cursor: pointer;
-	}
 	.el-card__header{
 		background-color: #edf6ff;
     border: none;
