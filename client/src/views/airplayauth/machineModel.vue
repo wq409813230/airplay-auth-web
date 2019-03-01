@@ -20,7 +20,8 @@
 		  </el-table-column>
 		  <el-table-column align="center" label="操作" width="400" class-name="small-padding fixed-width">
 		    <template slot-scope="scope">
-		      <el-button type="warning" plain size="small" @click="restPassword(scope.row.entryKey)">删除</el-button>
+          <el-button v-if="!scope.row.sequenceNBR || scope.row.edit" type="text" @click="createMachineModel(scope.row)" size="small">保存</el-button>
+		      <el-button type="warning" plain size="small" @click="deleteMachineModel(scope.row.entryKey)">删除</el-button>
 		    </template>
 		  </el-table-column>
 		</el-table>
@@ -32,25 +33,11 @@
 	</div>
 </template>
 <script>
-import { createMachineModel,deleteMachineModel,getMachineModel,getMachineModelByPage } from '@/api/machineModel'
+import { createMachineModel, deleteMachineModel, getMachineModelByPage } from '@/api/machinemodel'
 export default {
   data() {
-    const validateRoleCode = (rule, value, callback) => {
-      if (this.dialogStatus === 'create') {
-        if (!value) {
-          callback(new Error('用户编码不能为空'))
-        } else {
-          checkCodeIsValid(value).then((data) => {
-            if (data) {
-              callback()
-            } else {
-              callback(new Error('用户编码已存在'))
-            }
-          })
-        }
-      } else {
-        callback()
-      }
+    const validateModelCode = (code, cb) => {
+
     }
     return {
       list: null,
@@ -60,43 +47,29 @@ export default {
         length: 15,
         sidx: 'recDate',
         sort: 'desc',
-        employeeCode: '',
-        userName: ''
+        modelCode: ''
       },
       currentPage: 1,
       limit: 15,
       total: null,
-      user: {
-        employeeCode: '',
-        agencyCode: this.$store.getters.agencyCode,
-        userId: '',
-        userName: '',
-        mobile: '',
-        gender: '1',
-        departmentCode: '',
-        roleCodes: '',
+      machineModel: {
+        dictCode: '',
+        entryKey: '',
+        entryValue: '',
         lockStatus: 'N'
       },
-      roleCodes: [],
-      roles: null,
-      depts: null,
-      dialogFormVisible: false,
-      dialogStatus: '',
-      userRules: {
-        employeeCode: [{ trigger: 'blur', validator: validateRoleCode }],
-        userName: [{ required: true, trigger: 'blur', message: '用户名称不能为空' }],
-        departmentCode: [{ required: true, trigger: 'change', message: '部门不能为空' }]
+      machineModelRules: {
+        entryKey: [{ trigger: 'blur', validator: validateModelCode }]
       }
     }
   },
-  watch: { roleCodes: function(val) { this.user.roleCodes = val.join(',') } },
   created() {
     this.fetchData()
   },
   methods: {
     fetchData() {
       this.listLoading = true
-      getList(this.listQuery).then(response => {
+      getMachineModelByPage(this.listQuery).then(response => {
         this.list = response.list
         this.total = response.totalRows
         this.currentPage = response.currentPage
@@ -108,89 +81,22 @@ export default {
       this.listQuery.start = 0
       this.fetchData()
     },
-    resetForm() {
-      this.user = {
-        employeeCode: '',
-        agencyCode: this.$store.getters.agencyCode,
-        userId: '',
-        userName: '',
-        mobile: '',
-        gender: '1',
-        departmentCode: '',
-        roleCodes: '',
-        lockStatus: 'N'
+    resetMachineModelValidator() {
+      this.machineModelRules['entryKey'].message = ''
+    },
+    handleCreate() { // 新增字典
+      var addRow = {
+        entryKey: '',
+        entryValue: ''
       }
+      this.resetMachineModelValidator()
+      this.list.splice(0, 0, addRow)
     },
-    initData(cb) {
-      const proms = []
-      if (!this.roles) {
-        const role = getRoleList({ lockStatus: 'N' }).then((data) => { this.roles = data })
-        proms.push(role)
-      }
-      if (!this.roles) {
-        const dept = getDeptList({ start: 0, length: 100, parentCode: '-1' }).then((data) => { this.depts = data.list })
-        proms.push(dept)
-      }
-      if (proms.length) {
-        Promise.all(proms).then(v => {
-          cb()
-        })
-      } else {
-        cb()
-      }
+    createMachineModel(row) {
+      createMachineModel(row)
     },
-    handleCreate() {
-      const $this = this
-      this.resetForm()
-      this.roleCodes = []
-      this.initData(function() {
-        $this.dialogStatus = 'create'
-        $this.dialogFormVisible = true
-        $this.$nextTick(() => {
-          $this.$refs['dataForm'].clearValidate()
-        })
-      })
-    },
-    handleDeleteMergeAccount(row) {
-      this.$confirm('是否确认解除钉钉绑定?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteMergeAccount(row.userId).then(res => {
-          this.$notify({
-            title: '成功',
-            message: '解绑成功',
-            type: 'success',
-            duration: 2000
-          })
-          row.isBind = 'N'
-        })
-      }).catch(() => {})
-    },
-    handleUpdate(row) {
-      const $this = this
-      this.user = Object.assign({}, row)
-      this.roleCodes = row.roleCodes.split(',')
-      this.user.agencyCode = this.$store.getters.agencyCode
-      this.initData(function() {
-        $this.dialogFormVisible = true
-        $this.dialogStatus = 'update'
-        $this.$nextTick(() => {
-          $this.$refs['dataForm'].clearValidate()
-        })
-      })
-    },
-    handleLockStatus(row) {
-      changeUserStatus(row.userId).then((data) => {
-        row.lockStatus = data.lockStatus
-        this.$notify({
-          title: '成功',
-          message: '操作成功',
-          type: 'success',
-          duration: 2000
-        })
-      })
+    deleteMachineModel(modelCode) {
+      deleteMachineModel(modelCode)
     },
     handleSizeChange(val) {
       this.limit = val
@@ -201,67 +107,10 @@ export default {
       this.currentPage = val
       this.listQuery.start = (val - 1) * this.limit
       this.fetchData()
-    },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          createUser(this.user).then(() => {
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '创建成功',
-              type: 'success',
-              duration: 2000
-            })
-            this.handleFilter()
-          })
-        } else {
-          return false
-        }
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          updateUser(this.user.userId, this.user).then(() => {
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '修改成功',
-              type: 'success',
-              duration: 2000
-            })
-            this.handleFilter()
-          })
-        } else {
-          return false
-        }
-      })
-    },
-    restPassword(userId) {
-      this.$confirm('是否确认重置为默认密码?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        updateEmployeePassword(userId).then(res => {
-          this.$notify({
-            title: '成功',
-            message: '重置成功',
-            type: 'success',
-            duration: 2000
-          })
-          if (userId === this.$store.getters.userId) {
-            this.$store.dispatch('LogOut').then(() => {
-              location.reload() // 为了重新实例化vue-router对象 避免bug
-              if (window.yunba) {
-                window.yunba.disconnect() // 关闭连接
-              }
-            })
-          }
-        })
-      }).catch(() => {})
     }
   }
 }
 </script>
+<style rel="stylesheet/scss" lang="scss">
+
+</style>
