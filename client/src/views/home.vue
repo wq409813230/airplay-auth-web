@@ -1,5 +1,5 @@
 <template>
-	<div style="padding: 0 40px 80px 0;font-size: 14px;background-color: #f4f4f4;">
+	<div style="padding: 0 40px 80px 0;font-size: 14px;background-color: #f4f4f4;height: 100%;">
 		<div style="position: relative;line-height: 20px; background-color: #ffffff; border-radius: 3px;font-size: 12px;padding: 12px 16px;">
 			<span>今天是 {{getDate()}}</span>
 			<span v-if="getNearlyUsed().length" style="margin: 0 10px 0 30px;">最近使用:</span>
@@ -38,70 +38,6 @@ export default {
     linkTo(item) {
 			const { href } = this.$router.resolve({ name: item.name, query: item.query })
 			window.open(href, 'newWindow')
-		},
-		linkToInner(item) {
-			let { name, query } = item
-			console.log(name)
-			switch (name) {
-				case 'rcMyOfferList':
-					name = 'rcMyOfferProducts'
-					sessionStorage.setItem('offerFormId', query.id)
-					break
-				case 'myOfferList':
-					name = 'myOfferProducts'
-					sessionStorage.setItem('offerFormId', query.id)
-					break
-				case 'myProduceOrder':
-					name = 'myProductDetail'
-					query = {
-						orderStatus: 'finish',
-						orderId: query.id
-					}
-					break
-				case 'myPurchaseOrder':
-					name = 'myRcProductOrderDetail'
-					query = {
-						orderStatus: 'finish',
-						orderId: query.id
-					}
-					break
-			}
-			this.$router.push({
-        name,
-        query
-      })
-		},
-    modulesSetting() {
-			this.dialogVisible = true
-		},
-		toggleRows() {
-			this.$nextTick(() => {
-				this.modules.filter(item => this.checked.map(checked => checked.name).includes(item.name)).forEach(item => {
-					this.$refs.multipleTable.toggleRowSelection(item, true)
-				})
-			})
-		},
-		toUp(row) {
-			const index = this.modules.indexOf(row)
-			const temp = this.modules[index]
-			this.$set(this.modules, index, this.modules[index - 1])
-      this.$set(this.modules, index - 1, temp)
-		},
-		toDown(row) {
-			const index = this.modules.indexOf(row)
-			const temp = this.modules[index]
-			this.$set(this.modules, index, this.modules[index + 1])
-      this.$set(this.modules, index + 1, temp)
-		},
-		handleSelectionChange(val) {
-			this.checkRows = val
-		},
-		readData() {
-			this.checked.forEach(item => {
-				const { name } = item
-				if (this.list[name]) return false
-				this[name](name)
-      })
 		}
   }
 }

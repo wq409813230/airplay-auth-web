@@ -3,8 +3,8 @@
 		<div class="filter-container">
 	      <el-input @keyup.enter.native="handleFilter"  placeholder="机型名称" size="medium" style="width: 200px;" class="filter-item"  v-model="listQuery.modelCode">
 	      </el-input>
-	      <el-button class="filter-item" type="primary"  size="medium" @click="handleFilter">查询</el-button>
-	      <el-button class="filter-item" style="margin-left: 10px;"  size="medium"  @click="handleCreate" type="warning">新增</el-button>
+	      <el-button v-if="operButtons.indexOf('queryMachineModel') > -1" class="filter-item" type="primary"  size="medium" @click="handleFilter">查询</el-button>
+	      <el-button v-if="operButtons.indexOf('addMachineModel') > -1" class="filter-item" style="margin-left: 10px;"  size="medium"  @click="handleCreate" type="warning">新增</el-button>
 	  </div>
 		<el-table :data="list" :height="$store.getters.appHeight - 320" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
 		  <el-table-column align="center" label='ID' width="95" type="index" />
@@ -29,7 +29,7 @@
 		  <el-table-column align="center" label="操作" width="400" class-name="small-padding fixed-width">
 		    <template slot-scope="scope">
           <el-button v-if="!scope.row.sequenceNBR || scope.row.edit" type="primary" plain @click="createMachineModel(scope.row)" size="small">保存</el-button>
-		      <el-button type="warning" plain size="small" @click="deleteMachineModel(scope.row.entryKey)">删除</el-button>
+		      <el-button v-if="operButtons.indexOf('deleteMachieModel') > -1" type="warning" plain size="small" @click="deleteMachineModel(scope.row.entryKey)">删除</el-button>
 		    </template>
 		  </el-table-column>
 		</el-table>
@@ -69,6 +69,7 @@ export default {
       return true
     }
     return {
+      operButtons: this.$store.getters.operButtons,
       list: null,
       listLoading: true,
       listQuery: {

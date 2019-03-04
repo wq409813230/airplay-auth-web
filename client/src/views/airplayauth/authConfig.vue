@@ -3,8 +3,8 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter"  placeholder="机型" size="medium" style="width: 200px;" class="filter-item"  v-model="listQuery.machineModel"></el-input>
       <el-input @keyup.enter.native="handleFilter"  placeholder="公司" size="medium" style="width: 200px;" class="filter-item"  v-model="listQuery.companyName"></el-input>
-      <el-button class="filter-item" type="primary"  size="medium" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;"  size="medium"  @click="handleCreate" type="warning" >新增</el-button>
+      <el-button v-if="operButtons.indexOf('queryAuthConfig') > -1" class="filter-item" type="primary"  size="medium" @click="handleFilter">搜索</el-button>
+      <el-button v-if="operButtons.indexOf('addAuthConfig') > -1" class="filter-item" style="margin-left: 10px;"  size="medium"  @click="handleCreate" type="warning" >新增</el-button>
     </div>
 
     <el-table :data="list" v-loading.body="listLoading" :height="$store.getters.appHeight - 320" element-loading-text="Loading" border fit highlight-current-row>
@@ -32,7 +32,7 @@
         <template slot-scope="scope">
           {{scope.row.maxAuthCount}}
         </template>
-      </el-table-column>  
+      </el-table-column>
       <el-table-column label="授权时间" align="center">
         <template slot-scope="scope">
           {{scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{mm}:{ss}')}}
@@ -40,8 +40,8 @@
       </el-table-column>
       <el-table-column align="center" label="操作" width="180" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button type="danger" plain size="mini" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button v-if="operButtons.indexOf('editAuthConfig') > -1" type="primary" plain size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button v-if="operButtons.indexOf('deleteAuthConfig') > -1" type="danger" plain size="mini" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
