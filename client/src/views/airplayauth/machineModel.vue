@@ -10,13 +10,21 @@
 		  <el-table-column align="center" label='ID' width="95" type="index" />
 		  <el-table-column label="机型名称" width="110">
 		    <template slot-scope="scope">
-		      {{scope.row.entryKey}}
+          <template v-if="scope.row.sequenceNBR">{{ scope.row.entryKey }}</template>
+          <span v-else>
+            <el-input class="edit-input" size="small" v-model="scope.row.entryKey"></el-input>
+            <span class="warning-info">{{ machineModelRules.entryKey.message }}</span>
+          </span>
 		    </template>
 		  </el-table-column>
 		  <el-table-column label="机型描述" align="center">
 		    <template slot-scope="scope">
-		      <span>{{scope.row.entryValue}}</span>
-		    </template>
+          <template v-if="scope.row.sequenceNBR">{{ scope.row.entryValue }}</template>
+          <span v-else>
+            <el-input class="edit-input" size="small" v-model="scope.row.entryValue"></el-input>
+            <span class="warning-info">{{ machineModelRules.entryValue.message }}</span>
+          </span>
+        </template>
 		  </el-table-column>
 		  <el-table-column align="center" label="操作" width="400" class-name="small-padding fixed-width">
 		    <template slot-scope="scope">
@@ -33,11 +41,32 @@
 	</div>
 </template>
 <script>
-import { createMachineModel, deleteMachineModel, getMachineModelByPage } from '@/api/machinemodel'
+import { createMachineModel, deleteMachineModel, getMachineModelByPage, getMachineModel } from '@/api/machinemodel'
 export default {
   data() {
-    const validateModelCode = (code, cb) => {
-
+    const validateModelCode = (entryKey, cb) => {
+      this.machineModelRules.entryKey.message = ''
+      if (!entryKey) {
+        this.machineModelRules.entryKey.message = '机型不能为空'
+        cb(false)
+      } else {
+        getMachineModel(entryKey).then((data) => {
+          if (data) {
+            this.machineModelRules.entryKey.message = '机型已经存在'
+            cb(false)
+          } else {
+            cb(true)
+          }
+        })
+      }
+    }
+    const validateModelDesc = (entryValue) => {
+      this.machineModelRules.entryValue.message = ''
+      if (!entryValue) {
+        this.machineModelRules.entryValue.message = '机型描述不能为空'
+        return false
+      }
+      return true
     }
     return {
       list: null,
@@ -59,7 +88,8 @@ export default {
         lockStatus: 'N'
       },
       machineModelRules: {
-        entryKey: [{ trigger: 'blur', validator: validateModelCode }]
+        entryKey: { validate: validateModelCode, message: '' },
+        entryValue: { validate: validateModelDesc, message: '' }
       }
     }
   },
@@ -83,6 +113,7 @@ export default {
     },
     resetMachineModelValidator() {
       this.machineModelRules['entryKey'].message = ''
+      this.machineModelRules['entryValue'].message = ''
     },
     handleCreate() { // 新增字典
       var addRow = {
@@ -93,10 +124,43 @@ export default {
       this.list.splice(0, 0, addRow)
     },
     createMachineModel(row) {
-      createMachineModel(row)
+      var self = this
+      var valueExists = self.machineModelRules['entryValue'].validate(row.entryValue)
+      self.machineModelRules['entryKey'].validate(row.entryKey, function(valid) {
+        if (valid && valueExists) {
+          createMachineModel(row).then((data) => {
+            self.$notify({
+              title: '成功',
+              message: '创建成功',
+              type: 'success',
+              duration: 2000
+            })
+            self.fetchData()
+          })
+        }
+      })
     },
     deleteMachineModel(modelCode) {
-      deleteMachineModel(modelCode)
+      var self = this
+      if (modelCode) {
+        self.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteMachineModel(modelCode).then(() => {
+            self.$notify({
+              title: '成功',
+              message: '删除成功',
+              type: 'success',
+              duration: 2000
+            })
+            self.fetchData()
+          })
+        }).catch(() => {
+          return
+        })
+      }
     },
     handleSizeChange(val) {
       this.limit = val
