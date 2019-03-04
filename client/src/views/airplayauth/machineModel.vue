@@ -28,7 +28,7 @@
 		  </el-table-column>
 		  <el-table-column align="center" label="操作" width="400" class-name="small-padding fixed-width">
 		    <template slot-scope="scope">
-          <el-button v-if="!scope.row.sequenceNBR || scope.row.edit" type="text" @click="createMachineModel(scope.row)" size="small">保存</el-button>
+          <el-button v-if="!scope.row.sequenceNBR || scope.row.edit" type="primary" plain @click="createMachineModel(scope.row)" size="small">保存</el-button>
 		      <el-button type="warning" plain size="small" @click="deleteMachineModel(scope.row.entryKey)">删除</el-button>
 		    </template>
 		  </el-table-column>
