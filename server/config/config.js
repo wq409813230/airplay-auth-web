@@ -1,7 +1,7 @@
 const setCGI = () => {
     switch (process.env.NODE_HOST) {
         case 'dev':
-            return 'http://192.168.2.74/';
+            return 'http://192.168.2.253/';
         case 'qa':
             return 'http://192.168.2.77/';
         case 'debug':
@@ -11,28 +11,13 @@ const setCGI = () => {
         case 'st':
             return 'http://192.168.2.80/';
         default:
-            return 'http://192.168.2.74/';
+            return 'http://192.168.2.253/';
     }
 };
 module.exports = {
     freeapisCGI: setCGI(),
     product: 'Manage',
-    debug: [{
-            host: 'http://192.168.2.253:8081/',
-            model: 'freeapis-web-agency'
-        },
-        {
-            host: 'http://192.168.2.253:8082/',
-            model: 'freeapis-web-asi'
-        },
-        {
-            host: 'http://192.168.2.253:8083/',
-            model: 'freeapis-web-security'
-        },
-        {
-            host: 'http://192.168.2.253:8084/',
-            model: 'freeapis-web-systemctl'
-        },
+    debug: [
         {
             host: 'http://192.168.2.253:8085/',
             model: 'freeapis-web-airplayauth'
