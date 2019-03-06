@@ -19,7 +19,7 @@ module.exports = {
     product: 'Manage',
     debug: [
         {
-            host: 'http://192.168.2.103:8085/',
+            host: 'http://192.168.2.253:8085/',
             model: 'freeapis-web-airplayauth'
         }
     ]
