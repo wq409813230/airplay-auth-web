@@ -30,3 +30,11 @@ export function getAuthConfigByPage(params) {
     params
   })
 }
+
+export function getAuthHistoryByPage(params) {
+  return request({
+    url: 'authConfig/getAuthHistoryByPage',
+    method: 'GET',
+    params
+  })
+}
