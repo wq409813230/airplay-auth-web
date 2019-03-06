@@ -27,12 +27,17 @@
           <span>{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="认证状态" align="center">
+      <el-table-column label="认证次数" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.authedTimes}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="最后认证状态" align="center">
         <template slot-scope="scope">
           {{scope.row.authSuccess == 'Y' ? '成功' : '失败'}}
         </template>
       </el-table-column>
-      <el-table-column label="认证时间" align="center">
+      <el-table-column label="最后认证时间" align="center">
         <template slot-scope="scope">
           {{scope.row.authTime | parseTime('{y}-{m}-{d} {h}:{mm}:{ss}')}}
         </template>

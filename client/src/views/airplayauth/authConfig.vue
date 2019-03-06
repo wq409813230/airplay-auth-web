@@ -33,6 +33,11 @@
           {{scope.row.maxAuthCount}}
         </template>
       </el-table-column>
+      <el-table-column label="已授权数量" align="center">
+        <template slot-scope="scope">
+          {{scope.row.authedCount}}
+        </template>
+      </el-table-column>
       <el-table-column label="授权时间" align="center">
         <template slot-scope="scope">
           {{scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{mm}:{ss}')}}
