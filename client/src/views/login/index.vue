@@ -101,7 +101,7 @@ export default {
     position: fixed;
     height: 100%;
     width: 100%;
-    background: url("../../imgs/background.jpg") no-repeat center;
+    background: url("../../imgs/loginlogo.png") no-repeat center;
     background-size: cover;
     display: flex;
     justify-content: center;
