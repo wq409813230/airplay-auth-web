@@ -42,9 +42,6 @@
 		  </el-table-column>
 		  <el-table-column align="center" label="操作" width="400" class-name="small-padding fixed-width">
 		    <template slot-scope="scope">
-          <el-button type="primary" plain size="small" @click="handleDeleteMergeAccount(scope.row)">
-            {{scope.row.isBind == 'N' ? '未绑定' : '已绑定'}}
-          </el-button>
 		      <el-button type="primary" plain size="small" @click="handleUpdate(scope.row)">编辑</el-button>
 		      <el-button type="warning" plain size="small" @click="restPassword(scope.row.userId)">重置默认密码</el-button>
 		      <el-button type="danger" plain size="small" @click="handleLockStatus(scope.row)">
