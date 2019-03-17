@@ -14,9 +14,9 @@
         </template>
       </el-table-column>
       <el-table-column label="字典编码" width="200">
-        <template slot-scope="scope">       
+        <template slot-scope="scope">
           <template v-if="scope.row.sequenceNBR">
-            {{scope.row.dictCode}} 
+            {{scope.row.dictCode}}
           </template>
           <span v-else><el-input class="edit-input" size="small" v-model="scope.row.dictCode"></el-input>
           <span class="warning-info">{{ dictRules.dictCode.message }}</span>
@@ -26,7 +26,7 @@
       <el-table-column label="字典名称">
         <template slot-scope="scope">
           <template v-if="scope.row.sequenceNBR && !scope.row.edit">
-            {{scope.row.dictName}} 
+            {{scope.row.dictName}}
           </template>
           <span v-else>
             <el-input class="edit-input" size="small" v-model="scope.row.dictName"></el-input>
@@ -37,7 +37,7 @@
       <el-table-column label="描述">
         <template slot-scope="scope">
           <template v-if="scope.row.sequenceNBR && !scope.row.edit">
-            {{scope.row.description}} 
+            {{scope.row.description}}
           </template>
           <span v-else><el-input type="textarea" class="edit-input" size="small" v-model="scope.row.description"></el-input>
           <span class="warning-info">{{ dictRules.description.message }}</span></span>
@@ -99,12 +99,12 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="160">
           <template slot-scope="dicval">
-            <el-button v-if="dicval.row.sequenceNBR && !dicval.row.edit" type="text" 
+            <el-button v-if="dicval.row.sequenceNBR && !dicval.row.edit" type="text"
             @click='handleDictValUpdate(dicval.row)' size="small">编辑</el-button>
             <el-button v-if="!dicval.row.sequenceNBR || dicval.row.edit" type="text" @click="createDicValData(dicval.row)" size="small">保存</el-button>
-            <el-button type="text" v-if="dicval.row.sequenceNBR && !dicval.row.edit" size="mini" @click="handleDicValLockStatus(dicval.row)"> 
+            <el-button type="text" v-if="dicval.row.sequenceNBR && !dicval.row.edit" size="mini" @click="handleDicValLockStatus(dicval.row)">
           {{dicval.row.lockStatus == 'N' ? '禁用' : '启用'}}</el-button>
-            <el-button v-if="!dicval.row.sequenceNBR || dicval.row.edit" type="text" 
+            <el-button v-if="!dicval.row.sequenceNBR || dicval.row.edit" type="text"
             @click="handleDicValCancel(dicval.row)" size="small">取消</el-button>
             <el-button v-else type="text"  size="mini" @click="handleDicValDelete(dicval.row)">删除</el-button>
           </template>
@@ -187,8 +187,8 @@ export default {
       if (!value) {
         this.dictValRules.entryValue.message = '字典VALUE不能为空'
         return false
-      } else if (value.length > 200) {
-        this.dictValRules.entryValue.message = '字典VALUE不能超过200个字符'
+      } else if (value.length > 2000) {
+        this.dictValRules.entryValue.message = '字典VALUE不能超过2000个字符'
         return false
       }
       return true

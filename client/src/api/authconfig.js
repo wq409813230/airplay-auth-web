@@ -38,3 +38,17 @@ export function getAuthHistoryByPage(params) {
     params
   })
 }
+
+export function generateKeyPair() {
+  return request({
+    url: 'authConfig/generateKeyPair',
+    method: 'POST'
+  })
+}
+
+export function getKeyPair() {
+  return request({
+    url: 'authConfig/getKeyPair',
+    method: 'GET'
+  })
+}

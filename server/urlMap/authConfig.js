@@ -18,5 +18,11 @@ module.exports = {
     },
     getAuthHistoryByPage: ({start = 0, length = 15, machineModel='', companyName=''}) => {
         return `${authHistoryResourceV1}/manage/page?start=${start}&length=${length}&machineModel=${machineModel}&companyName=${companyName}`;
+    },
+    generateKeyPair: () => {
+        return `${authConfigResourceV1}/rsa/keyPair`;
+    },
+    getKeyPair: () => {
+        return `${authConfigResourceV1}/rsa/keyPair`;
     }
 };
