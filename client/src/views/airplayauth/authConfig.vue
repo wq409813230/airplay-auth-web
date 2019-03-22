@@ -8,12 +8,12 @@
     </div>
 
     <el-table :data="list" v-loading.body="listLoading" :height="$store.getters.appHeight - 320" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column align="center" label='ID' width="95">
+      <el-table-column align="center" label='ID' width="50">
         <template slot-scope="scope">
           {{scope.$index}}
         </template>
       </el-table-column>
-      <el-table-column label="机型编码" width="110">
+      <el-table-column label="机型编码" align="center">
         <template slot-scope="scope">
           {{scope.row.machineModel}}
         </template>
@@ -29,6 +29,11 @@
         </template>
       </el-table-column>
       <el-table-column label="最大授权数量" align="center">
+        <template slot-scope="scope">
+          {{scope.row.maxDeviceCount}}
+        </template>
+      </el-table-column>
+      <el-table-column label="最大认证次数" align="center">
         <template slot-scope="scope">
           {{scope.row.maxAuthCount}}
         </template>
@@ -70,11 +75,13 @@
         <el-form-item label="公司名称" prop="companyName">
           <el-input v-model="authConfig.companyName" :disabled="dialogStatus!='create'"></el-input>
         </el-form-item>
-        <el-form-item label="密钥">
-          <el-input type="textarea" v-model="authConfig.privateKey" prop="privateKey">
-          </el-input>
+        <el-form-item label="密钥" prop="privateKey">
+          <el-input v-model="authConfig.privateKey"></el-input>
         </el-form-item>
-        <el-form-item label="最大授权数量" prop="maxAuthCount">
+        <el-form-item label="最大授权数量" prop="maxDeviceCount">
+          <el-input v-model="authConfig.maxDeviceCount"></el-input>
+        </el-form-item>
+        <el-form-item label="最大认证次数" prop="maxAuthCount">
           <el-input v-model="authConfig.maxAuthCount"></el-input>
         </el-form-item>
       </el-form>
@@ -111,7 +118,8 @@
           machineModel: '',
           companyName: '',
           privateKey: '',
-          maxAuthCount: '0'
+          maxAuthCount: '0',
+          maxDeviceCount: '0'
         },
         machineModels: null,
         dialogFormVisible: false,
@@ -120,7 +128,8 @@
           machineModel: [{ required: true, trigger: 'blur', message: '机型不能为空' }],
           companyName: [{ required: true, trigger: 'blur', message: '公司不能为空' }],
           privateKey: [{ required: true, trigger: 'blur', message: '密钥不能为空' }],
-          maxAuthCount: [{ required: true, trigger: 'blur', message: '最大授权数量不能为空' }]
+          maxAuthCount: [{ required: true, trigger: 'blur', message: '最大授权数量不能为空' }],
+          maxDeviceCount: [{ required: true, trigger: 'blur', message: '最大认证次数不能为空' }]
         }
       }
     },
@@ -149,7 +158,8 @@
           machineModel: '',
           companyName: '',
           privateKey: '',
-          maxAuthCount: '0'
+          maxAuthCount: '0',
+          maxDeviceCount: '0'
         }
       },
       initData(cb) {
