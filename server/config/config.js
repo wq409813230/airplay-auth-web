@@ -18,9 +18,9 @@ module.exports = {
     freeapisCGI: setCGI(),
     product: 'Manage',
     debug: [
-        {
+        /*{
             host: 'http://192.168.2.100:8085/',
             model: 'freeapis-web-airplayauth'
-        }
+        }*/
     ]
 };
