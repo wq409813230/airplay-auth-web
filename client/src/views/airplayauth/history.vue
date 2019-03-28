@@ -30,21 +30,27 @@
       <el-table-column label="认证次数" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.authedTimes}}</span>
+          <span>(成功{{scope.row.successCount}}次)</span>
         </template>
       </el-table-column>
       <el-table-column label="最后认证状态" align="center">
         <template slot-scope="scope">
-          {{scope.row.authSuccess == 'Y' ? '成功' : '失败'}}
+          {{scope.row.lastAuthStatus == 'Y' ? '成功' : '失败'}}
         </template>
       </el-table-column>
       <el-table-column label="最后认证时间" align="center">
         <template slot-scope="scope">
-          {{scope.row.authTime | parseTime('{y}-{m}-{d} {h}:{mm}:{ss}')}}
+          {{scope.row.lastAuthTime | parseTime('{y}-{m}-{d} {h}:{mm}:{ss}')}}
         </template>
       </el-table-column>
       <el-table-column label="认证失败原因" align="center">
         <template slot-scope="scope">
           {{scope.row.failedMessage}}
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="操作" width="90" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button v-if="operButtons.indexOf('deleteHistory') > -1" type="primary" plain size="mini" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -56,7 +62,7 @@
   </div>
 </template>
 <script>
-  import { getAuthHistoryByPage } from '@/api/authconfig'
+  import { getAuthHistoryByPage, deleteAuthHistory } from '@/api/authconfig'
   export default {
     name: 'authHistoryTemplate',
     data() {
@@ -103,6 +109,27 @@
         this.currentPage = val
         this.listQuery.start = (val - 1) * this.limit
         this.fetchData()
+      },
+      handleDelete(row) {
+        var self = this
+        self.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteAuthHistory(row.deviceMac).then(() => {
+            self.$notify({
+              title: '成功',
+              message: '删除成功',
+              type: 'success',
+              duration: 2000
+            })
+            const index = self.list.indexOf(row)
+            self.list.splice(index, 1)
+          })
+        }).catch(() => {
+          return
+        })
       }
     }
   }

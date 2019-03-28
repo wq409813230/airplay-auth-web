@@ -52,3 +52,10 @@ export function getKeyPair() {
     method: 'GET'
   })
 }
+
+export function deleteAuthHistory(deviceMac) {
+  return request({
+    url: 'authConfig/deleteAuthHistory?deviceMac=' + deviceMac,
+    method: 'DELETE'
+  })
+}

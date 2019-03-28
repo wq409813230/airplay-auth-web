@@ -24,5 +24,8 @@ module.exports = {
     },
     getKeyPair: () => {
         return `${authConfigResourceV1}/rsa/keyPair`;
+    },
+    deleteAuthHistory: ({ deviceMac }) => {
+        return `${authHistoryResourceV1}/deviceMac/${deviceMac}`
     }
 };
