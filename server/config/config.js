@@ -3,13 +3,9 @@ const setCGI = () => {
         case 'dev':
             return 'http://192.168.2.253/';
         case 'qa':
-            return 'http://192.168.2.77/';
-        case 'debug':
-            return 'http://192.168.2.74/';
+            return 'http://172.18.149.81/';
         case 'pt':
-            return 'http://192.168.2.86/';
-        case 'st':
-            return 'http://192.168.2.80/';
+            return 'http://172.18.149.81/';
         default:
             return 'http://192.168.2.253/';
     }
