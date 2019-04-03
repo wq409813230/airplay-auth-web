@@ -43,6 +43,7 @@
 		  <el-table-column align="center" label="操作" width="400" class-name="small-padding fixed-width">
 		    <template slot-scope="scope">
 		      <el-button type="primary" plain size="small" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button type="danger" plain size="small" @click="handleDelete(scope.row)">刪除</el-button>
 		      <el-button type="warning" plain size="small" @click="restPassword(scope.row.userId)">重置默认密码</el-button>
 		      <el-button type="danger" plain size="small" @click="handleLockStatus(scope.row)">
 		      {{scope.row.lockStatus == 'N' ? '禁用' : '启用'}}</el-button>
@@ -120,7 +121,7 @@
 	</div>
 </template>
 <script>
-import { getList, createUser, updateUser, getRoleList, getDeptList, changeUserStatus, checkCodeIsValid, updateEmployeePassword, deleteMergeAccount } from '@/api/user'
+import { getList, createUser, deleteUser, updateUser, getRoleList, getDeptList, changeUserStatus, checkCodeIsValid, updateEmployeePassword, deleteMergeAccount } from '@/api/user'
 export default {
   data() {
     const validateRoleCode = (rule, value, callback) => {
@@ -268,6 +269,22 @@ export default {
           $this.$refs['dataForm'].clearValidate()
         })
       })
+    },
+    handleDelete(row) {
+      this.$confirm('是否刪除员工?' + row.employeeCode, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteUser(row.userId).then(res => {
+          this.$notify({
+            title: '成功',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+        })
+      }).catch(() => {})
     },
     handleLockStatus(row) {
       changeUserStatus(row.userId).then((data) => {

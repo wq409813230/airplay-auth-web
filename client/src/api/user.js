@@ -94,3 +94,10 @@ export function deleteMergeAccount(userId) {
     method: 'delete'
   })
 }
+
+export function deleteUser(userId) {
+  return request({
+    url: 'users/CURD?id=' + userId,
+    method: 'DELETE'
+  })
+}
