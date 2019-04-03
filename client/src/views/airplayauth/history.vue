@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
+      <el-input @keyup.enter.native="handleFilter"  placeholder="设备MAC地址" size="medium" style="width: 200px;" class="filter-item"  v-model="listQuery.deviceMac"></el-input>
       <el-input @keyup.enter.native="handleFilter"  placeholder="机型" size="medium" style="width: 200px;" class="filter-item"  v-model="listQuery.machineModel"></el-input>
       <el-input @keyup.enter.native="handleFilter"  placeholder="公司" size="medium" style="width: 200px;" class="filter-item"  v-model="listQuery.companyName"></el-input>
       <el-button v-if="operButtons.indexOf('queryAuthHistory') > -1" class="filter-item" type="primary"  size="medium" @click="handleFilter">搜索</el-button>
@@ -73,6 +74,7 @@
         listQuery: {
           start: 0,
           length: 15,
+          deviceMac: '',
           machineModel: '',
           companyName: ''
         },
