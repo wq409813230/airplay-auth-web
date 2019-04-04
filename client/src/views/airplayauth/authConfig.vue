@@ -48,8 +48,9 @@
           {{scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{mm}:{ss}')}}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作" width="180" class-name="small-padding fixed-width">
+      <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-button v-if="operButtons.indexOf('getAuthInfoList') > -1" type="primary" plain size="mini" @click="openAuthInfoList(scope.row)">查看已授权设备</el-button>
           <el-button v-if="operButtons.indexOf('editAuthConfig') > -1" type="primary" plain size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
           <el-button v-if="operButtons.indexOf('deleteAuthConfig') > -1" type="danger" plain size="mini" @click="handleDelete(scope.row)">删除</el-button>
         </template>
@@ -264,6 +265,15 @@
             })
           } else {
             return false
+          }
+        })
+      },
+      openAuthInfoList(row) {
+        var self = this
+        self.$router.push({
+          name: 'authInfoList',
+          query: {
+            authConfigId: row.sequenceNBR
           }
         })
       }

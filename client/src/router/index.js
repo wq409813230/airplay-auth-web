@@ -82,5 +82,11 @@ export default new Router({
 })
 
 export const hiddenRouterMap = {
-  productInfo: []
+  airplayAuthInfo: [{
+    path: 'authInfoList',
+    name: 'authInfoList',
+    component: _import('airplayauth/authInfo'),
+    hidden: true,
+    meta: { title: '已授权设备列表', 'parentName': '设备授权', 'parentPath': 'deviceAuthManage' }
+  }]
 }

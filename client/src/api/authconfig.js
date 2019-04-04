@@ -59,3 +59,18 @@ export function deleteAuthHistory(deviceMac) {
     method: 'DELETE'
   })
 }
+
+export function getAuthInfoList(configId, params) {
+  return request({
+    url: 'authConfig/getAuthInfoList?configId=' + configId,
+    method: 'GET',
+    params
+  })
+}
+
+export function deleteAuthInfo(id) {
+  return request({
+    url: 'authConfig/deleteAuthInfo?id=' + id,
+    method: 'DELETE'
+  })
+}

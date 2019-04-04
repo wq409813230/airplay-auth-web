@@ -27,5 +27,11 @@ module.exports = {
     },
     deleteAuthHistory: ({ deviceMac }) => {
         return `${authHistoryResourceV1}/deviceMac/${deviceMac}`
+    },
+    getAuthInfoList: ({ configId, deviceMac, start = 0, length = 15 }) => {
+        return `${authConfigResourceV1}/${configId}/authInfo/page?deviceMac=${deviceMac}&start=${start}&length=${length}`;
+    },
+    deleteAuthInfo: ({ id }) => {
+        return `${authConfigResourceV1}/authInfo/${id}`;
     }
 };
