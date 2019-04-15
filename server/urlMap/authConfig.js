@@ -16,8 +16,8 @@ module.exports = {
     paginate: ({start = 0, length = 15, machineModel='', companyName=''}) => {
         return `${authConfigResourceV1}/manage/page?start=${start}&length=${length}&machineModel=${machineModel}&companyName=${companyName}`;
     },
-    getAuthHistoryByPage: ({start = 0, length = 15, machineModel='', companyName=''}) => {
-        return `${authHistoryResourceV1}/manage/page?start=${start}&length=${length}&machineModel=${machineModel}&companyName=${companyName}`;
+    getAuthHistoryByPage: ({start = 0, length = 15, deviceMac='', machineModel='', companyName=''}) => {
+        return `${authHistoryResourceV1}/manage/page?start=${start}&length=${length}&deviceMac=${deviceMac}&machineModel=${machineModel}&companyName=${companyName}`;
     },
     generateKeyPair: () => {
         return `${authConfigResourceV1}/rsa/keyPair`;
